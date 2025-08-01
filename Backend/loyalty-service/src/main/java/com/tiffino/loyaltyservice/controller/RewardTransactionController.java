@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/reward")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://13.203.196.191:4200")
 public class RewardTransactionController {
 
     private final RewardTransactionService rewardTransactionService;

@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/giftcards")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://13.203.196.191:4200")
 public class GiftCardController {
 
     private final GiftCardService giftCardService;

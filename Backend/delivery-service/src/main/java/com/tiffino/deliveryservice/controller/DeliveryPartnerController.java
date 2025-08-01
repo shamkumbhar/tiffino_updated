@@ -13,7 +13,7 @@ import java.util.List;
 @RestController                           // ← ADD THIS
 @RequestMapping("/delivery-partners")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")// ← ADD THIS
+@CrossOrigin(origins = "http://13.203.196.191:4200")// ← ADD THIS
 public class DeliveryPartnerController {
     @Autowired
     public DeliveryPartnerService deliveryPartnerService;

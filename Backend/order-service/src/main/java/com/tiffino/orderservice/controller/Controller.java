@@ -67,14 +67,14 @@ public class Controller {
             @RequestParam OrderStatus status) {
         return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
     }
-//PATCH http://localhost:8081/order/5/status?status=DELIVERED
+//PATCH http://13.203.196.191:8081/order/5/status?status=DELIVERED
 
    @GetMapping("/user/{userId}/history")
     public List<OrderDto> getOrderHistory(@PathVariable Long userId) {
         return orderService.getOrderHistoryByUserId(userId);
    }
 
-//GET http://localhost:8081/order/user/15/history
+//GET http://13.203.196.191:8081/order/user/15/history
 
     @GetMapping("/orders/{orderId}/status-history")
     public ResponseEntity<List<OrderStatusHistoryDto>> getOrderStatusHistory(@PathVariable Long orderId) {
@@ -95,7 +95,7 @@ public class Controller {
     public ResponseEntity<List<UserDto>> getUsersBySubscription(
             @RequestParam boolean isSubscription) {
         return ResponseEntity.ok(orderService.getUsersBySubscriptionType(isSubscription));
-    }//http://localhost:8081/order/users/by-subscription?isSubscription=true
+    }//http://13.203.196.191:8081/order/users/by-subscription?isSubscription=true
 
 
 
@@ -107,7 +107,7 @@ public class Controller {
         List<OrderDto> result = orderService.getOrdersByDateAndMeal(date, mealType);
         return ResponseEntity.ok(result);
     }
-//http://localhost:8081/order/by-date-and-meal?date=2025-06-23&mealType=BREAKFAST
+//http://13.203.196.191:8081/order/by-date-and-meal?date=2025-06-23&mealType=BREAKFAST
 
 
     @GetMapping("/by-date")
@@ -117,7 +117,7 @@ public class Controller {
         return ResponseEntity.ok(orders);
     }
 
-//http://localhost:8081/order/by-date?date=2025-06-23
+//http://13.203.196.191:8081/order/by-date?date=2025-06-23
 
 
 

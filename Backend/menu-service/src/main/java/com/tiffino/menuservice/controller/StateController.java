@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/states")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://13.203.196.191:4200")
 public class StateController {
     private final StateService stateService;
 

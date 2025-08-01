@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ingredients")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://13.203.196.191:4200")
 public class IngredientController {
 
     private final IngredientService ingredientService;

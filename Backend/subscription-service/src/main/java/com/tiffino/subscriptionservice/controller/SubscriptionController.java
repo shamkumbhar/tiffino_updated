@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/subscriptions")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://13.203.196.191:4200")
 public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;

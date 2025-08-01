@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/regions")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://13.203.196.191:4200")
 public class RegionController {
     private final RegionService regionService;
 

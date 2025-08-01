@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/subscription-plans")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://13.203.196.191:4200")
 
 
 public class SubscriptionPlanController {

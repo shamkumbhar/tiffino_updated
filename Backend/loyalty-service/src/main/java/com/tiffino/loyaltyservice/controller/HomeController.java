@@ -12,7 +12,7 @@
 
 
 
-//@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://13.203.196.191:4200")
 //public class HomeController {
 //
 //    @GetMapping("/run")

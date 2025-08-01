@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://13.203.196.191:4200")
 @RestController
 @RequestMapping("/cuisines")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://13.203.196.191:4200")
 public class CuisineController {
 
     private final CuisineService cuisineService;

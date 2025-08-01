@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.8'
 
 services:
 
@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     container_name: eureka-server
     ports:
-      - "8990:8990"
+      - "8990:8080"
     networks:
       - tiffino-net
 
@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile
     container_name: api-gateway
     ports:
-      - "8080:8080"
+      - "8800:8080"
     depends_on:
       - eureka-server
     networks:
@@ -45,7 +45,7 @@ services:
     build:
       context: ./Backend/userservice
       dockerfile: Dockerfile
-    container_name: user-service
+    container_name: userservice
     ports:
       - "8890:8080"
     depends_on:
@@ -110,20 +110,6 @@ services:
     networks:
       - tiffino-net
 
-  # Loyalty Service
-  loyalty-service:
-    build:
-      context: ./Backend/loyalty-service
-      dockerfile: Dockerfile
-    container_name: loyalty-service
-    ports:
-      - "8940:8080"
-    depends_on:
-      - mysql-db
-      - eureka-server
-    networks:
-      - tiffino-net
-
   # Notification Service
   notification-service:
     build:
@@ -131,13 +117,15 @@ services:
       dockerfile: Dockerfile
     container_name: notification-service
     ports:
-      - "8960:8080"
+      - "8980:8080"
     depends_on:
       - mysql-db
       - eureka-server
     networks:
       - tiffino-net
+      
 
+  # Frontend
   frontend:
     build:
       context: ./Frontend
@@ -145,17 +133,11 @@ services:
     container_name: frontend
     ports:
       - "80:80"
-    volumes:
-      - ./Frontend/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - api-gateway
     networks:
-      - tiffino-net 
+      - tiffino-net
 
 networks:
   tiffino-net:
 
 volumes:
   mysql_data:
-
-
