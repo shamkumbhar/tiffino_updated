@@ -1,0 +1,439 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-db
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-db
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+          ports:
+            - containerPort: 3306
+         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-db
+  namespace: tiffino
+spec:
+  selector:
+    app: mysql-db
+  ports:
+    - port: 3306
+      targetPort: 3306
+	  
+	  
+---	  
+#Backend - Microservices k8s menifest files:
+#userservice
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+        - name: userservice
+          image: shamkumbhar47/tiffino:userservice
+          ports:
+            - containerPort: 8890
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/userdbfinal?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+  namespace: tiffino
+spec:
+  selector:
+    app: userservice
+  ports:
+    - port: 8890
+      targetPort: 8890
+	  
+	  
+---
+#eureka-server	  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eureka-server
+  template:
+    metadata:
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+        - name: eureka-server
+          image: shamkumbhar47/tiffino:eureka-server
+          ports:
+            - containerPort: 8990
+         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-server
+  namespace: tiffino
+spec:
+  selector:
+    app: eureka-server
+  ports:
+    - port: 8990
+      targetPort: 8990	  
+	  
+	  
+
+---
+#api-gateway	  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: shamkumbhar47/tiffino:api-gateway
+          ports:
+            - containerPort: 8890
+         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: tiffino
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - port: 8890
+      targetPort: 8890
+	
+
+
+
+---
+#review-service	  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-service
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: review-service
+  template:
+    metadata:
+      labels:
+        app: review-service
+    spec:
+      containers:
+        - name: review-service
+          image: shamkumbhar47/tiffino:review-service
+          ports:
+            - containerPort: 8950
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/reviewdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: review-service
+  namespace: tiffino
+spec:
+  selector:
+    app: review-service
+  ports:
+    - port: 8950
+      targetPort: 8950	
+	  
+	  
+
+---
+#loyalty-service  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loyalty-service
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loyalty-service
+  template:
+    metadata:
+      labels:
+        app: loyalty-service
+    spec:
+      containers:
+        - name: loyalty-service
+          image: shamkumbhar47/tiffino:loyalty-service
+          ports:
+            - containerPort: 8940
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/loyaltydb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loyalty-service
+  namespace: tiffino
+spec:
+  selector:
+    app: loyalty-service
+  ports:
+    - port: 8940
+      targetPort: 8940	
+
+---
+#payment-service  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: shamkumbhar47/tiffino:payment-service
+          ports:
+            - containerPort: 8930
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/paymentdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: tiffino
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - port: 8930
+      targetPort: 8930	  	  
+	  
+	  
+---
+#menu-service  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: menu-service
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: menu-service
+  template:
+    metadata:
+      labels:
+        app: menu-service
+    spec:
+      containers:
+        - name: menu-service
+          image: shamkumbhar47/tiffino:menu-service
+          ports:
+            - containerPort: 8920
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/menudb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: menu-service
+  namespace: tiffino
+spec:
+  selector:
+    app: menu-service
+  ports:
+    - port: 8920
+      targetPort: 8920		
+
+
+---
+#order-service  
+	  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: shamkumbhar47/tiffino:order-service
+          ports:
+            - containerPort: 8910
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/orderdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: tiffino
+spec:
+  selector:
+    app: order-service
+  ports:
+    - port: 8910
+      targetPort: 8910	  
+	  
+	  
+---
+#frontend
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: shamkumbhar47/tiffino:frontend
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: tiffino
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 8085
+      targetPort: 80
+      nodePort: 30005
+  type: NodePort
