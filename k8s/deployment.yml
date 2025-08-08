@@ -386,6 +386,57 @@ spec:
   ports:
     - port: 8910
       targetPort: 8910
+	  
+	  
+	  
+	  
+# ======================
+# Delivery Service
+# ======================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-service
+  namespace: tiffino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delivery-service
+  template:
+    metadata:
+      labels:
+        app: delivery-service
+    spec:
+      containers:
+        - name: delivery-service
+          image: shamkumbhar47/tiffino:delivery-service
+          ports:
+            - containerPort: 8970
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-db:3306/deliverydb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eureka-server:8990/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-service
+  namespace: tiffino
+spec:
+  selector:
+    app: delivery-service
+  ports:
+    - port: 8970
+      targetPort: 8970 
+	  
+	  
 
 # ======================
 # Frontend
