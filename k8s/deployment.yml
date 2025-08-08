@@ -430,8 +430,7 @@ spec:
     app: delivery-service
   ports:
     - port: 8970
-      targetPort: 8970 
-	  
+      targetPort: 8970  
 # ======================
 # Frontend
 # ======================
