@@ -1,3 +1,6 @@
+# ======================
+# MySQL Database
+# ======================
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,7 +24,6 @@ spec:
               value: "root"
           ports:
             - containerPort: 3306
-         
 ---
 apiVersion: v1
 kind: Service
@@ -34,13 +36,11 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
-	  
-	  
----	  
-#Backend - Microservices k8s menifest files:
-#userservice
 
-
+# ======================
+# User Service
+# ======================
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -82,12 +82,11 @@ spec:
   ports:
     - port: 8890
       targetPort: 8890
-	  
-	  
----
-#eureka-server	  
-	  
 
+# ======================
+# Eureka Server
+# ======================
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -108,7 +107,6 @@ spec:
           image: shamkumbhar47/tiffino:eureka-server
           ports:
             - containerPort: 8990
-         
 ---
 apiVersion: v1
 kind: Service
@@ -120,14 +118,12 @@ spec:
     app: eureka-server
   ports:
     - port: 8990
-      targetPort: 8990	  
-	  
-	  
+      targetPort: 8990
 
+# ======================
+# API Gateway
+# ======================
 ---
-#api-gateway	  
-	  
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -148,7 +144,6 @@ spec:
           image: shamkumbhar47/tiffino:api-gateway
           ports:
             - containerPort: 8890
-         
 ---
 apiVersion: v1
 kind: Service
@@ -161,14 +156,11 @@ spec:
   ports:
     - port: 8890
       targetPort: 8890
-	
 
-
-
+# ======================
+# Review Service
+# ======================
 ---
-#review-service	  
-	  
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -209,14 +201,12 @@ spec:
     app: review-service
   ports:
     - port: 8950
-      targetPort: 8950	
-	  
-	  
+      targetPort: 8950
 
+# ======================
+# Loyalty Service
+# ======================
 ---
-#loyalty-service  
-	  
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -257,12 +247,12 @@ spec:
     app: loyalty-service
   ports:
     - port: 8940
-      targetPort: 8940	
+      targetPort: 8940
 
+# ======================
+# Payment Service
+# ======================
 ---
-#payment-service  
-	  
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -303,13 +293,12 @@ spec:
     app: payment-service
   ports:
     - port: 8930
-      targetPort: 8930	  	  
-	  
-	  
----
-#menu-service  
-	  
+      targetPort: 8930
 
+# ======================
+# Menu Service
+# ======================
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -350,13 +339,12 @@ spec:
     app: menu-service
   ports:
     - port: 8920
-      targetPort: 8920		
+      targetPort: 8920
 
-
+# ======================
+# Order Service
+# ======================
 ---
-#order-service  
-	  
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -397,12 +385,12 @@ spec:
     app: order-service
   ports:
     - port: 8910
-      targetPort: 8910	  
-	  
-	  
----
-#frontend
+      targetPort: 8910
 
+# ======================
+# Frontend
+# ======================
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
