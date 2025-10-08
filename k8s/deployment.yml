@@ -203,51 +203,6 @@ spec:
     - port: 8950
       targetPort: 8950
 
-# ======================
-# Loyalty Service
-# ======================
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: loyalty-service
-  namespace: tiffino
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: loyalty-service
-  template:
-    metadata:
-      labels:
-        app: loyalty-service
-    spec:
-      containers:
-        - name: loyalty-service
-          image: shamkumbhar47/tiffino:loyalty-service
-          ports:
-            - containerPort: 8940
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql-db:3306/loyaltydb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-            - name: SPRING_DATASOURCE_USERNAME
-              value: root
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: root
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-              value: http://eureka-server:8990/eureka
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: loyalty-service
-  namespace: tiffino
-spec:
-  selector:
-    app: loyalty-service
-  ports:
-    - port: 8940
-      targetPort: 8940
 
 # ======================
 # Payment Service
@@ -340,52 +295,7 @@ spec:
   ports:
     - port: 8920
       targetPort: 8920
-
-# ======================
-# Order Service
-# ======================
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: order-service
-  namespace: tiffino
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: order-service
-  template:
-    metadata:
-      labels:
-        app: order-service
-    spec:
-      containers:
-        - name: order-service
-          image: shamkumbhar47/tiffino:order-service
-          ports:
-            - containerPort: 8910
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql-db:3306/orderdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-            - name: SPRING_DATASOURCE_USERNAME
-              value: root
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: root
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-              value: http://eureka-server:8990/eureka
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: order-service
-  namespace: tiffino
-spec:
-  selector:
-    app: order-service
-  ports:
-    - port: 8910
-      targetPort: 8910 
+      
 # ======================
 # Delivery Service
 # ======================
